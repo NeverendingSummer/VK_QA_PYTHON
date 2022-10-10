@@ -6,11 +6,10 @@ import pytest
 from selenium.webdriver.chrome.service import Service
 
 
-
 def pytest_addoption(parser):
-    # parser.addoption("--browser", default="chrome")
     parser.addoption("--url", default="https://target-sandbox.my.com/")
     parser.addoption('--headless', action='store_true')
+
 
 
 @pytest.fixture()
@@ -18,7 +17,6 @@ def configure(request):
     url = request.config.getoption("--url")
     headless = request.config.getoption("--headless")
     return {"url": url, "headless": headless}
-# browser = request.config.getoption("--browser") "browser": browser,
 
 
 @pytest.fixture(scope='function')
@@ -28,7 +26,7 @@ def driver(configure):
     headless = configure["headless"]
     if headless:
         options.add_argument("--headless")
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(ChromeDriverManager(version="105.0.5195.19").install(), options=options)
     driver.maximize_window()
     driver.get(url)
     yield driver
