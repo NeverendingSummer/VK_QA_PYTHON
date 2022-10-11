@@ -8,7 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 import datetime
-
+import selenium.common.exceptions
+from selenium.common.exceptions import *
 
 
 
@@ -35,14 +36,17 @@ class BaseCase:
 
     def logout(self):
         self.find(*basic_locators.PROFILE_LOCATOR).click()
-        time.sleep(1)  # работает только он, я без понятия как фиксить
-        self.find(*basic_locators.LOGOUT_LOCATOR).click()
-        WebDriverWait(self.driver, 15).until(ec.presence_of_element_located(basic_locators.BASEPAGE_LOCATOR))
+        try:
+            WebDriverWait(self.driver, 2).until(ec.element_to_be_clickable(basic_locators.test_locator))
+            self.find(*basic_locators.LOGOUT_LOCATOR).click()
+        except selenium.common.exceptions.ElementClickInterceptedException:
+            WebDriverWait(self.driver, 2).until(ec.element_to_be_clickable(basic_locators.test_locator))
+            self.find(*basic_locators.LOGOUT_LOCATOR).click()
 
     def change(self):
         now = datetime.datetime.now()
         self.driver.get("https://target-sandbox.my.com/profile/contacts")
-        WebDriverWait(self.driver, 15).until(ec.element_to_be_clickable(basic_locators.FIO_LOCATOR))
+        WebDriverWait(self.driver, 1).until(ec.element_to_be_clickable(basic_locators.FIO_LOCATOR))
         action = ActionChains(self.driver)
         action_storage = self.find(*basic_locators.FIO_LOCATOR)
         action.double_click(action_storage).send_keys(Keys.DELETE).send_keys(f"newtestfio{now.minute}").perform()

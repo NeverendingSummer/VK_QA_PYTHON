@@ -11,7 +11,6 @@ def pytest_addoption(parser):
     parser.addoption('--headless', action='store_true')
 
 
-
 @pytest.fixture()
 def configure(request):
     url = request.config.getoption("--url")

@@ -13,7 +13,7 @@ import random
 class TestOne(BaseCase):
 
     # Тест открытия окна авторизации с последующим вводом корректных данных
-    #@pytest.mark.skip('skip')
+    @pytest.mark.skip('skip')
     def test_login(self, driver):
         self.login("blessrng17@gmail.com", "testpass123")
 
@@ -25,12 +25,12 @@ class TestOne(BaseCase):
         self.authorization(email, password)
 
     # Тест выхода из профиля
-    @pytest.mark.skip('skip')
+    #@pytest.mark.skip('skip')
     def test_logout(self):
         self.login("blessrng17@gmail.com", "testpass123")
         self.logout()
 
-    # Параметризованный тест на переход по навигационному полю. Правда из пула убран PRO, потому что он по кд ломается
+    # Параметризованный тест на переход по навигационному полю.
     @pytest.mark.skip('skip')
     @pytest.mark.parametrize("nav", [(random.randint(0, 4)),
                                      (random.randint(0, 4))])
