@@ -46,19 +46,18 @@ class BaseCase:
     def change(self):
         now = datetime.datetime.now()
         self.driver.get("https://target-sandbox.my.com/profile/contacts")
-        WebDriverWait(self.driver, 1).until(ec.element_to_be_clickable(basic_locators.FIO_LOCATOR))
+        WebDriverWait(self.driver, 3).until(ec.element_to_be_clickable(basic_locators.FIO_LOCATOR))
         action = ActionChains(self.driver)
         action_storage = self.find(*basic_locators.FIO_LOCATOR)
         action.double_click(action_storage).send_keys(Keys.DELETE).send_keys(f"newtestfio{now.minute}").perform()
         action_storage = self.find(*basic_locators.SUBMIT_LOCATOR)
         action.click(action_storage).perform()
-        WebDriverWait(self.driver, 15).until(ec.element_to_be_clickable(basic_locators.SUBMIT_LOCATOR))
+        WebDriverWait(self.driver, 5).until(ec.element_to_be_clickable(basic_locators.SUBMIT_LOCATOR))
         self.find(*basic_locators.SUBMIT_LOCATOR).click()
 
     def authorization(self, email, password):
         self.insert(email, password)
         try:
-            self.find(*basic_locators.ENTER_LOCATOR).click()
-            assert self.driver.current_url == "https://target-sandbox.my.com/dashboard"
-        except AssertionError:
+            self.find(*basic_locators.DISPLAYED_SITE_LOCATOR)
+        except selenium.common.exceptions.NoSuchElementException:
             print("Введены неверные данные")
