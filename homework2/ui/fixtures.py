@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from ui.pages.base_page import BasePage
-
+from ui.pages.ad_page import AdPage
 
 @pytest.fixture(scope='function')
 def driver(configure):
@@ -22,3 +22,7 @@ def driver(configure):
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
+
+@pytest.fixture
+def ad_page(driver):
+    return AdPage(driver=driver)

@@ -7,7 +7,7 @@ import random
 class TestOne(BaseCase):
 
     # Тест открытия окна авторизации с последующим вводом корректных данных
-    @pytest.mark.skip('skip')
+    #@pytest.mark.skip('skip')
     def test_login(self, driver):
         self.base_page.login("blessrng17@gmail.com", "testpass123")
 
@@ -19,7 +19,7 @@ class TestOne(BaseCase):
         self.base_page.authorization(email, password)
 
     # Тест выхода из профиля
-    #@pytest.mark.skip('skip')
+    @pytest.mark.skip('skip')
     def test_logout(self):
         self.base_page.login("blessrng17@gmail.com", "testpass123")
         self.base_page.logout()
@@ -33,7 +33,7 @@ class TestOne(BaseCase):
     #     self.base_page.find(*basic_locators.NAVIGATION_LOCATOR[nav]).click()
 
     # Тест на изменение информации
-    #@pytest.mark.skip('skip')
+    @pytest.mark.skip('skip')
     def test_change_info(self, driver):
         self.base_page.login("blessrng17@gmail.com", "testpass123")
         self.base_page.change()

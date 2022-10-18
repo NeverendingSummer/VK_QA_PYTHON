@@ -1,6 +1,7 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
 from ui.pages.base_page import BasePage
+from ui.pages.ad_page import AdPage
 
 
 class BaseCase:
@@ -10,3 +11,4 @@ class BaseCase:
     def setup(self, driver, configure, request: FixtureRequest):
         self.driver = driver
         self.base_page:BasePage = (request.getfixturevalue('base_page'))
+        self.ad_page:AdPage = (request.getfixturevalue('ad_page'))
