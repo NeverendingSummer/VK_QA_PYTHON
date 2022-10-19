@@ -28,19 +28,13 @@ class BasePageLocators:
 
 
 class AdPageLocators:
-    NEW_AD_CAMPAIGN_LOCATOR = (By.XPATH, "//ul/a[contains(@href,'/campaign/new')]") #локатор, когда нет созданных кампаний
-    NOT_NEW_AD_CAMPAIGN_LOCATOR = (By.XPATH, "//div[contains(@class, 'pagination-module-pagination-')]") #локатор, если созданные компании есть
+
     AD_VISIBILITY_LOCATOR = (By.XPATH, "//div[contains(@class, 'js-objectives-container')]") #локатор, для прогрузки раздела создания
     AD_WATCH_VIDEO_LOCATOR = (By.XPATH, "//div[contains(@class,'_videoviews')]") #локатор "просмотр видео"
-    ENTER_URL_LOCATOR = (By.XPATH, "//div/input[contains(@class,'input-module-input')]")
-    VISIBITY_OF_COMPAIGN_INFO_LOCATOR = (By.XPATH, "//div[contains(@data-name, 'whomTargeting')]")
-    CREATE_COMPAIGN_LOCATOR = (By.XPATH, "//div[contains(@class, '-createButtonWrap-')]")
+    ENTER_URL_LOCATOR = (By.XPATH, "//div/input[contains(@class,'input-module-input')]") #локатор ввода сссылки
+    CREATE_COMPAIGN_LOCATOR = (By.XPATH, "//div[contains(@class, '-createButtonWrap-')]") #локатор начальной страницы для запуска создания
     PREROLL_LOCATOR = (By.XPATH, "//div[contains(@id, 'patterns_preroll')]") #локатор преролда
-    DROP_AREA_LOCATOR = (By.XPATH, "//div[contains(@class, 'upload-module-dropArea')]")  # локатор прогрузки области загрузки видео
-    #SEND_VIDEO_LOCATOR = (By.XPATH, "//div[contains(@class, '-filtersAndPreviewsWrapper-')]")  # локатор отправки видео
-    SEND_VIDEO_LOCATOR = (By.XPATH, "//div/input[contains(@type, 'file')]")
-    SUBMIT_CAMPAIGN_LOCATOR = (By.XPATH, "//div[contains(@data-test, 'submit_banner_button')]")  # локатор сохранения объявления
-    #DRAG_LOCATOR = (By.XPATH, "//video[contains(@class='mediaLibrary-module-video')]")
-    DRAG_LOCATOR = (By.XPATH, "//div[contains(@class, '-module-imageHeader-')]")
-
-
+    SEND_VIDEO_LOCATOR = (By.XPATH, "//div[contains(@class, 'roles-module-currentPatternButton')]//input[@type='file']") #локатор скрытой кнопки отправить видео
+    SAVE_CAMPAIGN_LOCATOR = (By.XPATH, "//div[contains(@data-test, 'submit_banner_button')]")  # локатор сохранения объявления
+    SUBMIT_CAMPAIGN_LOCATOR = (By.XPATH, "//div[contains(@class, 'js-save-button-wrap')]")  # локатор конечного сохранения объявления
+    SUCCESS_LOCATOR = (By.XPATH, "//div[contains(@class, 'notify-module-success')]") # локатор успешной работы
