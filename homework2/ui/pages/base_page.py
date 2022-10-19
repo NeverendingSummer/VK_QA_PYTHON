@@ -18,7 +18,7 @@ class BasePage(object):
 
     def wait(self, timeout=None):
         if timeout is None:
-            timeout = 5
+            timeout = 15
         return WebDriverWait(self.driver, timeout=timeout)
 
     def find(self, locator, timeout=None):
@@ -35,8 +35,7 @@ class BasePage(object):
         self.find(self.locators.USERNAME_LOCATOR).send_keys(email)
         self.find(self.locators.PASSWORD_LOCATOR).send_keys(password)
 
-    def login(self, email, password):
+    def login(self, email, password, timeout=None):
         self.insert(email, password)
         self.find(self.locators.ENTER_LOCATOR).click()
-        WebDriverWait(self.driver, 15).until(ec.visibility_of_element_located(self.locators.DISPLAYED_SITE_LOCATOR))
-
+        self.wait(timeout).until(ec.element_to_be_clickable(self.locators.DISPLAYED_SITE_LOCATOR))
