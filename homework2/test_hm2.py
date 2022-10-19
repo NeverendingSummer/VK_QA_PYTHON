@@ -6,7 +6,7 @@ class TestTwo(BaseCase):
     def test_login(self):
         self.base_page.login("blessrng17@gmail.com", "testpass123", timeout=15)
 
-    def test_create_campaing(self):
+    def test_create_campaign(self):
         ad_url = "https://www.nestle.com/brands/chocolate-confectionery/kitkat"
         video = 'D:/Программирование/ДЗ_сдача/2022-2-VK-QA-PYTHON-ayypeegeepee/homework2/files/ad.mp4'
         self.base_page.login("blessrng17@gmail.com", "testpass123", timeout=15)
