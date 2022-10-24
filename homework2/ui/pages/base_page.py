@@ -1,12 +1,5 @@
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
-import time
 import selenium.webdriver.support.expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
-import datetime
-import selenium.common.exceptions
 from ui.locators import basic_locators
 
 
@@ -34,6 +27,12 @@ class BasePage(object):
         self.find(self.locators.LOGIN_LOCATOR).click()
         self.find(self.locators.USERNAME_LOCATOR).send_keys(email)
         self.find(self.locators.PASSWORD_LOCATOR).send_keys(password)
+
+    def wait_presence(self, locator, timeout=None):
+        return self.wait(timeout).until(ec.presence_of_element_located(locator))
+
+    def wait_clickable(self, locator, timeout=None):
+        return self.wait(timeout).until(ec.element_to_be_clickable(locator))
 
     def login(self, email, password, timeout=None):
         self.insert(email, password)
