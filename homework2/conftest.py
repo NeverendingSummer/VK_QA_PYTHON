@@ -1,8 +1,8 @@
-from ui.fixtures import *
-from ui.pages.base_page import BasePage
-from ui.pages.ad_page import AdPage
-import os, shutil
 import logging
+import shutil
+
+from ui.fixtures import *
+
 
 def pytest_addoption(parser):
     parser.addoption("--url", default="https://target-sandbox.my.com/")

@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from ui.pages.base_page import BasePage
 from ui.pages.ad_page import AdPage
+from ui.pages.segment_page import SegmentPage
 import os
 
 
@@ -29,6 +30,7 @@ def cookies(driver, configure):
     cookies = driver.get_cookies()
     return cookies
 
+
 @pytest.fixture()
 def file_path(repo_root):
     return os.path.join(repo_root, 'files', 'ad.mp4')
@@ -42,3 +44,8 @@ def base_page(driver):
 @pytest.fixture
 def ad_page(driver):
     return AdPage(driver=driver)
+
+
+@pytest.fixture
+def segment_page(driver):
+    return SegmentPage(driver=driver)

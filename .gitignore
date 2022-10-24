@@ -127,6 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# custom ignore
 .idea/
 allure/
-files/
+*.patch

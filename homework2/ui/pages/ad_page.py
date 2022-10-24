@@ -1,13 +1,14 @@
 import selenium.webdriver.support.expected_conditions as ec
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
+from selenium.webdriver.common.by import By
 
 
 class AdPage(BasePage):
     locators = basic_locators.AdPageLocators()
 
     def create_ad_campaign(self, url, timeout=None):
-        self.click(basic_locators.AdPageLocators.CREATE_COMPAIGN_LOCATOR)
+        self.click(basic_locators.AdPageLocators.CREATE_CAMPAIGN_LOCATOR)
         self.wait_presence(basic_locators.AdPageLocators.AD_VISIBILITY_LOCATOR, timeout=15)
         self.click(basic_locators.AdPageLocators.AD_WATCH_VIDEO_LOCATOR)
         self.wait_presence(basic_locators.AdPageLocators.ENTER_URL_LOCATOR, timeout=15)

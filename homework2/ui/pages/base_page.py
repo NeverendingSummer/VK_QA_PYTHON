@@ -22,6 +22,7 @@ class BasePage(object):
         elem = self.wait(timeout).until(ec.element_to_be_clickable(locator))
         elem.click()
 
+
     def insert(self, email, password):
         WebDriverWait(self.driver, 15).until(ec.element_to_be_clickable(self.locators.LOGIN_LOCATOR))
         self.find(self.locators.LOGIN_LOCATOR).click()
@@ -37,4 +38,4 @@ class BasePage(object):
     def login(self, email, password, timeout=None):
         self.insert(email, password)
         self.find(self.locators.ENTER_LOCATOR).click()
-        self.wait(timeout).until(ec.element_to_be_clickable(self.locators.DISPLAYED_SITE_LOCATOR))
+        # self.wait(timeout).until(ec.element_to_be_clickable(self.locators.DISPLAYED_SITE_LOCATOR))
