@@ -39,3 +39,7 @@ class BasePage(object):
         self.insert(email, password)
         self.find(self.locators.ENTER_LOCATOR).click()
         # self.wait(timeout).until(ec.element_to_be_clickable(self.locators.DISPLAYED_SITE_LOCATOR))
+
+    def wait_and_click(self, what, timeout=None):
+        self.wait_clickable(what, timeout=15)
+        self.click(what)

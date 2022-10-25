@@ -5,6 +5,7 @@ from selenium import webdriver
 from ui.pages.base_page import BasePage
 from ui.pages.ad_page import AdPage
 from ui.pages.segment_page import SegmentPage
+from ui.pages.groups_page import GroupsPage
 import os
 
 
@@ -49,3 +50,8 @@ def ad_page(driver):
 @pytest.fixture
 def segment_page(driver):
     return SegmentPage(driver=driver)
+
+
+@pytest.fixture
+def groups_page(driver):
+    return GroupsPage(driver=driver)

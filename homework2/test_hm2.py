@@ -5,7 +5,7 @@ from base import BaseCase
 
 @pytest.mark.UI
 class TestTwo(BaseCase):
-
+    @pytest.mark.skip("skip")
     def test_create_campaign(self, file_path):
         campaing_name = str(uuid.uuid4())
         ad_url = "https://www.nestle.com/brands/chocolate-confectionery/kitkat"
@@ -14,7 +14,11 @@ class TestTwo(BaseCase):
         self.ad_page.submit(campaing_name, timeout=15)
         self.ad_page.success_check(campaing_name, timeout=15)
 
+    @pytest.mark.skip("skip")
     def test_segment_creation(self):
         segment_name = str(uuid.uuid4())
         self.segment_page.create_segment(segment_name, timeout=5)
         self.segment_page.success_check(segment_name, timeout=15)
+
+    def test_group_creation(self):
+        self.groups_page.creating_groups()

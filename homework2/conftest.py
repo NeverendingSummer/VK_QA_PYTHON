@@ -1,7 +1,8 @@
 import logging
 import shutil
-
+import time
 from ui.fixtures import *
+from datetime import datetime
 
 
 def pytest_addoption(parser):
@@ -32,7 +33,8 @@ def base_temp_dir():
 
 @pytest.fixture(scope='function')
 def temp_dir(base_temp_dir, request):
-    test_dir = os.path.join(base_temp_dir, "logs")
+    time = datetime.now()
+    test_dir = os.path.join(base_temp_dir, request.node.name)
     os.makedirs(test_dir)
     return test_dir
 

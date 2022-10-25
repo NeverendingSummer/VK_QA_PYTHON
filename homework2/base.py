@@ -2,6 +2,7 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from ui.pages.base_page import BasePage
 from ui.pages.ad_page import AdPage
+from ui.pages.groups_page import GroupsPage
 from ui.pages.segment_page import SegmentPage
 import os
 import allure
@@ -23,6 +24,7 @@ class BaseCase:
         self.base_page: BasePage = (request.getfixturevalue('base_page'))
         self.ad_page: AdPage = (request.getfixturevalue('ad_page'))
         self.segment_page: SegmentPage = (request.getfixturevalue('segment_page'))
+        self.groups_page: GroupsPage = (request.getfixturevalue('groups_page'))
 
 
     @pytest.fixture(scope='function', autouse=True)

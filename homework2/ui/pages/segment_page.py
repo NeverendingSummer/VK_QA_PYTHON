@@ -5,20 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
-#        SUCCESS_LOCATOR = (By.XPATH, f"//a[@title= '{campaing_name}']")
-#        self.wait_presence(SUCCESS_LOCATOR, timeout=15)
-
-# action = ActionChains(self.driver)
-# action_storage = self.find(*basic_locators.FIO_LOCATOR)
-# action.double_click(action_storage).send_keys(Keys.DELETE).send_keys(f"newtestfio{now.minute}").perform()
-
 
 class SegmentPage(BasePage):
     locators = basic_locators.SegmentLocators()
-
-    def wait_and_click(self, what, timeout=None):
-        self.wait_clickable(what, timeout=15)
-        self.click(what)
 
     def change_name(self, segment_name):
         action = ActionChains(self.driver)

@@ -32,12 +32,19 @@ class AdPageLocators(BasePageLocators):
 
 
 class SegmentLocators(BasePageLocators):
-    # //div[@class='button__text'] //div[@class='adding-segments-item'] //div[@class='head-module-leftWrap-1wJKQT'] //div[@class='input input_create-segment-form']//input[@type='text']
-    # SEGMENT_NAME_PLACEHOLDER_LOCATOR = (By.XPATH, "//div[contains(@class, 'head-module-leftWrap')]")
-    # SEGMENT_NAME_PLACEHOLDER_LOCATOR = (By.XPATH, "//div/div/input[contains(@class, 'js-form-element')]")
     CREATE_SEGMENT_LOCATOR = (By.XPATH, "//button[@class='button button_submit']")
     APPS_GAMES_LOCATOR = (By.XPATH, "//div[contains(text(), 'Приложения и игры в соцсетях')]")
     CHECKBOX_LOCATOR = (By.XPATH, "//div/input[@type='checkbox']")
     ADD_SEGMENT_LOCATOR = (By.XPATH, "//div[contains(@class, 'adding-segments-modal__btn-wrap ')]")
     SEGMENT_NAME_PLACEHOLDER_LOCATOR = (By.XPATH, "//div[@class='input input_create-segment-form']//input[@type='text']")
     DISPLAYED_SEGMENTS_LOCATOR = (By.XPATH, "//div/div/div[contains(@class, 'js-viewport-wrapper')]")
+
+
+class GroupsLocators(BasePageLocators):
+    GROUPS_INPUT_PLACEHOLDER_LOCATOR = (By.XPATH, "//input[contains(@class, 'input-module-input-')]")
+    SHOW_LOCATOR = (By.XPATH, "//div[@data-test='show']")
+    OPTIONS_LOCATOR = (By.XPATH, "//li/span[contains(@class, 'optionsList-module-text-')]")
+    SUBMIT_GROUP_LOCATOR = (By.XPATH, "//div[contains(@class, 'bubbleComponent-module-submit-')]")
+    CHECK_CREATION_LOCATOR = (By.XPATH, "//a[@href='https://vk.com/vkedu']")
+    DELETION_LOCATOR = (By.XPATH, "//span[@class='icon-cross']")
+    CONFIRM_DELETION_LOCATOR = (By.XPATH, "//button[@class='button button_confirm-remove button_general']")
