@@ -26,7 +26,6 @@ class BaseCase:
         self.segment_page: SegmentPage = (request.getfixturevalue('segment_page'))
         self.groups_page: GroupsPage = (request.getfixturevalue('groups_page'))
 
-
     @pytest.fixture(scope='function', autouse=True)
     def ui_report(self, driver, request, temp_dir):
         failed_test_count = request.session.testsfailed
