@@ -12,10 +12,10 @@ class BaseCase:
     authorize = True
 
     @pytest.fixture(scope='function', autouse=True)
-    def setup(self, driver, configure, logger, request: FixtureRequest):
+    def setup(self, driver, config, logger, request: FixtureRequest):
         self.driver = driver
         self.logger = logger
-        self.configure = configure
+        self.configure = config
         if self.authorize:
             cookies = (request.getfixturevalue('cookies'))
             for cookie in cookies:

@@ -10,13 +10,6 @@ def pytest_addoption(parser):
     parser.addoption('--headless', action='store_true')
     parser.addoption('--debug_log', action='store_true')
 
-@pytest.fixture(scope='session')
-def configure(request):
-    url = request.config.getoption("--url")
-    headless = request.config.getoption("--headless")
-    debug_log = request.config.getoption('--debug_log')
-    return {"url": url, "headless": headless, 'debug_log': debug_log}
-
 
 @pytest.fixture(scope='session')
 def repo_root():
@@ -24,7 +17,7 @@ def repo_root():
 
 
 @pytest.fixture(scope='session')
-def base_temp_dir():
+def base_temp_dir(config):
     base_dir = './info'
     if os.path.exists(base_dir):
         shutil.rmtree(base_dir)
@@ -32,18 +25,26 @@ def base_temp_dir():
 
 
 @pytest.fixture(scope='function')
-def temp_dir(base_temp_dir, request):
+def temp_dir(request):
     time = datetime.now()
-    test_dir = os.path.join(base_temp_dir, request.node.name)
+    test_dir = os.path.join(request.config.base_temp_dir, request.node.name)
     os.makedirs(test_dir)
     return test_dir
 
 
+@pytest.fixture(scope='session')
+def config(request):
+    url = request.config.getoption("--url")
+    headless = request.config.getoption("--headless")
+    debug_log = request.config.getoption('--debug_log')
+    return {"url": url, "headless": headless, 'debug_log': debug_log}
+
+
 @pytest.fixture(scope='function')
-def logger(temp_dir, configure):
+def logger(temp_dir, config):
     log_formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
     log_file = os.path.join(temp_dir, 'test.log')
-    log_level = logging.DEBUG if configure['debug_log'] else logging.INFO
+    log_level = logging.DEBUG if config['debug_log'] else logging.INFO
 
     file_handler = logging.FileHandler(log_file, 'w')
     file_handler.setFormatter(log_formatter)

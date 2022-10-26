@@ -6,14 +6,24 @@ from ui.pages.base_page import BasePage
 from ui.pages.ad_page import AdPage
 from ui.pages.segment_page import SegmentPage
 from ui.pages.groups_page import GroupsPage
-import os
+import os, sys, shutil
+
+
+def pytest_configure(config):
+    base_dir = './info'
+    if not hasattr(config, 'workerunput'):
+        if os.path.exists(base_dir):
+            shutil.rmtree(base_dir)
+        os.makedirs(base_dir)
+
+    config.base_temp_dir = base_dir
 
 
 @pytest.fixture(scope="session")
-def driver(configure):
+def driver(config):
     options = Options()
-    url = configure["url"]
-    headless = configure["headless"]
+    url = config["url"]
+    headless = config["headless"]
     if headless:
         options.add_argument("--headless")
     driver = webdriver.Chrome(ChromeDriverManager(version="105.0.5195.19").install(), options=options)
@@ -24,8 +34,8 @@ def driver(configure):
 
 
 @pytest.fixture(scope='session')
-def cookies(driver, configure):
-    driver.get(configure['url'])
+def cookies(driver, config):
+    driver.get(config['url'])
     base_page = BasePage(driver)
     base_page.login("blessrng17@gmail.com", "testpass123")
     cookies = driver.get_cookies()
