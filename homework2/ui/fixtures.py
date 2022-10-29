@@ -31,7 +31,7 @@ def driver(config):
     driver.get(url)
     yield driver
     driver.quit()
-
+#version="105.0.5195.19"
 
 @pytest.fixture(scope='session')
 def cookies(driver, config):

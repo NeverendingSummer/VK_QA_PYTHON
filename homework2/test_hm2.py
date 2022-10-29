@@ -7,7 +7,7 @@ import allure
 @allure.link("https://www.youtube.com/watch?v=dQw4w9WgXcQ", name='Click me')
 @pytest.mark.UI
 class TestTwo(BaseCase):
-
+    @pytest.mark.skip("skip")
     def test_create_campaign(self, file_path):
         """
         Тест на создание рекламной кампании, в качестве примера взят бренд KitKat
@@ -19,6 +19,7 @@ class TestTwo(BaseCase):
         self.ad_page.submit(campaing_name, timeout=15)
         self.ad_page.success_check(campaing_name, timeout=15)
 
+    @pytest.mark.skip("skip")
     def test_segment_creation(self):
         """
         Тест на создание аудиторного сегмента
