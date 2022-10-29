@@ -3,7 +3,7 @@ import shutil
 import time
 from ui.fixtures import *
 from datetime import datetime
-
+from api.client import ApiClient
 
 def pytest_addoption(parser):
     parser.addoption("--url", default="https://target-sandbox.my.com/")
@@ -60,3 +60,8 @@ def logger(temp_dir, config):
 
     for handler in log.handlers:
         handler.close()
+
+
+@pytest.fixture(scope='session')
+def api_client(config):
+    return ApiClient()

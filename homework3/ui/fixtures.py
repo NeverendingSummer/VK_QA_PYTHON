@@ -26,7 +26,7 @@ def driver(config):
     headless = config["headless"]
     if headless:
         options.add_argument("--headless")
-    driver = webdriver.Chrome(ChromeDriverManager(version="105.0.5195.19").install(), options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.maximize_window()
     driver.get(url)
     yield driver
@@ -34,12 +34,17 @@ def driver(config):
 #version="105.0.5195.19"
 
 @pytest.fixture(scope='session')
-def cookies(driver, config):
-    driver.get(config['url'])
-    base_page = BasePage(driver)
-    base_page.login("blessrng17@gmail.com", "testpass123")
-    cookies = driver.get_cookies()
-    return cookies
+def cookies(driver, config, api_client):
+    api_client.login()
+    all_cookies = api_client.session.cookies
+    buffer = []
+    for cookies in all_cookies:
+        buffer.append({
+            'name': cookies.name,
+            'value': cookies.value
+        })
+    return buffer
+
 
 
 @pytest.fixture()
@@ -65,3 +70,4 @@ def segment_page(driver):
 @pytest.fixture
 def groups_page(driver):
     return GroupsPage(driver=driver)
+

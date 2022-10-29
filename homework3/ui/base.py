@@ -15,7 +15,7 @@ class BaseCase:
     def setup(self, driver, config, logger, request: FixtureRequest):
         self.driver = driver
         self.logger = logger
-        self.configure = config
+        self.config = config
         if self.authorize:
             cookies = (request.getfixturevalue('cookies'))
             for cookie in cookies:
