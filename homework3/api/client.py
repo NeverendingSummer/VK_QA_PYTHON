@@ -3,10 +3,6 @@ from urllib.parse import urljoin
 import uuid
 
 
-class DeletionException(Exception):
-    ...
-
-
 class ApiClient:
     def __init__(self):
         self.session = requests.Session()
@@ -60,7 +56,7 @@ class ApiClient:
                                  headers=headers)
         print(func.status_code)
 
-    def create_segment_games(self, name):
+    def post_segment_games(self, name):
         dict = self.session.cookies.get_dict()
         csrf = dict['csrftoken']
         headers = {
@@ -111,9 +107,17 @@ class ApiClient:
         print(func.status_code)
         print(func.text)
 
-
-r = ApiClient()
-r.login()
-res = r.post_test()
-pass
+    def delete_campaign(self, name):
+        dict = self.session.cookies.get_dict()
+        csrf = dict['csrftoken']
+        headers = {
+            "X-CSRFToken": f'{csrf}'
+        }
+        json = self.session.get(url='https://target-sandbox.my.com/api/v2/campaigns.json?fields=id%2Cname&sorting=-id&_status__in=active').json()
+        for i in range(len(json['items'])):
+            if str(json['items'][i]['name']) == str(name):
+                buf = json['items'][i]['id']
+                deletion = self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{buf}.json',
+                    headers=headers)
+                print(deletion.status_code)
 

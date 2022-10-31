@@ -31,7 +31,7 @@ def driver(config):
     driver.get(url)
     yield driver
     driver.quit()
-#version="105.0.5195.19"
+#version="105.0.5195.19" - хардкод версии ломает код
 
 @pytest.fixture(scope='session')
 def cookies(driver, config, api_client):
@@ -44,8 +44,6 @@ def cookies(driver, config, api_client):
             'value': cookies.value
         })
     return buffer
-
-
 
 @pytest.fixture()
 def file_path(repo_root):
