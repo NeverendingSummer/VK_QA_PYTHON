@@ -29,7 +29,7 @@ class AdPageLocators(BasePageLocators):
     COMPANY_NAME_LOCATOR = (By.XPATH, "//div[@class='js-bottom-campaign-name-wrap']//input[@type='text']")
     CLEAR_NAME_LOCATOR = (
     By.XPATH, "//div[@class='js-bottom-campaign-name-wrap']//div[@class='input__clear js-input-clear']")
-
+    CHECK_CAMPAIGN_LOCATOR = (By.XPATH, '//input[@placeholder="Поиск..."]')
 
 class SegmentLocators(BasePageLocators):
     CREATE_SEGMENT_LOCATOR = (By.XPATH, "//button[@class='button button_submit']")

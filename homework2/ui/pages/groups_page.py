@@ -2,6 +2,7 @@ from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 import allure
 
+
 class GroupsPage(BasePage):
     locators = basic_locators.GroupsLocators()
 
@@ -13,5 +14,7 @@ class GroupsPage(BasePage):
         self.wait_and_click(basic_locators.GroupsLocators.OPTIONS_LOCATOR)
         self.wait_and_click(basic_locators.GroupsLocators.SUBMIT_GROUP_LOCATOR)
         self.wait_and_click(basic_locators.GroupsLocators.CHECK_CREATION_LOCATOR)
+
+    def delete_groups(self):
         self.wait_and_click(basic_locators.GroupsLocators.DELETION_LOCATOR)
         self.wait_and_click(basic_locators.GroupsLocators.CONFIRM_DELETION_LOCATOR)

@@ -26,7 +26,9 @@ def driver(config):
     headless = config["headless"]
     if headless:
         options.add_argument("--headless")
-    driver = webdriver.Chrome(ChromeDriverManager(version="105.0.5195.19").install(), options=options)
+        driver = webdriver.Chrome(ChromeDriverManager(version="105.0.5195.19").install(), options=options)
+    else:
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.maximize_window()
     driver.get(url)
     yield driver

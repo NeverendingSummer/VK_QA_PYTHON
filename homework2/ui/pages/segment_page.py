@@ -17,9 +17,7 @@ class SegmentPage(BasePage):
 
     @allure.step("Функция create_segment создает сегмент")
     def create_segment(self, segment_name, timeout=None):
-        self.driver.get("https://target-sandbox.my.com/segments")
-        self.wait_and_click(basic_locators.SegmentLocators.CREATE_SEGMENT_LOCATOR)
-        self.wait_and_click(basic_locators.SegmentLocators.APPS_GAMES_LOCATOR)
+        self.driver.get("https://target-sandbox.my.com/segments/segments_list/new")
         self.wait_and_click(basic_locators.SegmentLocators.CHECKBOX_LOCATOR)
         self.wait_and_click(basic_locators.SegmentLocators.ADD_SEGMENT_LOCATOR)
         self.change_name(segment_name)
@@ -29,4 +27,4 @@ class SegmentPage(BasePage):
     def success_check(self, segment_name, timeout=None):
         self.wait(timeout).until(ec.element_to_be_clickable(self.locators.DISPLAYED_SEGMENTS_LOCATOR))
         SUCCESS_LOCATOR = (By.XPATH, f"//a[@title= '{segment_name}']")
-        self.wait_presence(SUCCESS_LOCATOR, timeout=5)
+        self.find(SUCCESS_LOCATOR, timeout=5)

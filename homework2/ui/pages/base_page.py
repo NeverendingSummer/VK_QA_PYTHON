@@ -22,15 +22,11 @@ class BasePage(object):
         elem = self.wait(timeout).until(ec.element_to_be_clickable(locator))
         elem.click()
 
-
     def insert(self, email, password):
         WebDriverWait(self.driver, 15).until(ec.element_to_be_clickable(self.locators.LOGIN_LOCATOR))
         self.find(self.locators.LOGIN_LOCATOR).click()
         self.find(self.locators.USERNAME_LOCATOR).send_keys(email)
         self.find(self.locators.PASSWORD_LOCATOR).send_keys(password)
-
-    def wait_presence(self, locator, timeout=None):
-        return self.wait(timeout).until(ec.presence_of_element_located(locator))
 
     def wait_clickable(self, locator, timeout=None):
         return self.wait(timeout).until(ec.element_to_be_clickable(locator))
