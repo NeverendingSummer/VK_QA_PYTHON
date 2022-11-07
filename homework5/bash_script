@@ -1,0 +1,19 @@
+echo "1 - Общее количество запросов"
+cat access.log | wc -l > bash_result
+echo " "
+
+echo "2 - Общее количество запросов по типу, например: GET - 20, POST - 10 и т.д. (1 балл)"
+cat access.log | awk '{print$6}' | sort | uniq -c | sort -n | awk '{print$2" "$1}' >> bash_result
+echo " "
+
+echo "3 - топ 10 самых частых запросов (1 балл):"
+cat access.log | awk '{print$7}' | sort | uniq -c -d | sort -n -r|head -10 |awk '{print$1" "$2}' >> bash_result
+echo " "
+
+echo "4 -Топ 5 самых больших по размеру запросов, которые завершились клиентской (4ХХ) ошибкой (1 балл):"
+cat access.log | awk '{print$1" "$9" "$10" "$7}' | awk '$2=="404"||$2=="400"||$2=="403"||$2=="405"||$2=="412"' | sort -n -r -k 3 | head -5 >> bash_result
+echo " "
+
+echo "5 - Топ 5 пользователей по количеству запросов, которые завершились серверной (5ХХ) ошибкой (1 балл):"
+cat access.log | awk '{print$1" "$9}' | sort -n -k 2 | uniq -c | grep ' 500' | sort -n -r -k1 | head -5 | awk '{print$2" "$1}'>> bash_result
+echo " "
