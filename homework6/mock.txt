@@ -1,0 +1,5 @@
+189.217.45.73 404 1417 /index.php?option=com_phocagallery&view=category&id=7806&Itemid=53
+189.217.45.73 404 1417 /index.php?option=com_phocagallery&view=category&id=4025&Itemid=53
+189.217.45.73 404 1417 /index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%289168%3D4696%29%20THEN%209168%20ELSE%
+189.217.45.73 404 1417 /index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%281753%3D1753%29%20THEN%201753%20ELSE%
+95.82.195.206 404 1397 //index.php?option=com_users&view=registration
