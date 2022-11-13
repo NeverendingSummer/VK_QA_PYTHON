@@ -16,4 +16,3 @@ echo " "
 
 echo "5 - Топ 5 пользователей по количеству запросов, которые завершились серверной (5ХХ) ошибкой (1 балл):"
 cat access.log | awk '{print$1" "$9}' | sort -n -k 2 | uniq -c | grep ' 500' | sort -n -r -k1 | head -5 | awk '{print$2" "$1}'>> bash_result
-echo " "
