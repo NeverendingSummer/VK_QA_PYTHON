@@ -1,0 +1,16 @@
+
+
+{
+            "name":  "pass",
+            "pass_condition": 1,
+            "flags": ["cross_device"],
+            "relations": [
+                {
+                    "object_type": "remarketing_vk_group",
+                    "params": {
+                        "type": "positive",
+                        "source_id": 153502007
+                    }
+                }
+            ]
+        }

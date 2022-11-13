@@ -1,8 +1,5 @@
 import pytest
 
-# from test_api.builder import Builder
-
-
 class ApiBase:
     authorize = True
 

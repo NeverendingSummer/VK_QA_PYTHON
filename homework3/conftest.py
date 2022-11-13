@@ -1,10 +1,10 @@
 import logging
 import shutil
 import time
-from ui.fixtures import *
 from datetime import datetime
 from api.client import ApiClient
-
+import os
+import pytest
 def pytest_addoption(parser):
     parser.addoption("--url", default="https://target-sandbox.my.com/")
     parser.addoption('--headless', action='store_true')

@@ -21,4 +21,3 @@ class TestApi(ApiBase):
         name = uuid.uuid4()
         self.api_client.post_campaign(name)
         self.api_client.delete_campaign(name)
-

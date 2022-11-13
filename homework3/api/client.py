@@ -1,7 +1,8 @@
 import requests
 from urllib.parse import urljoin
 import uuid
-
+import json
+import os
 
 class ApiClient:
     def __init__(self):
@@ -38,23 +39,9 @@ class ApiClient:
             "X-CSRFToken": f'{csrf}'
         }
 
-        data = {
-            "name": f"{name}",
-            "pass_condition": 1,
-            "flags": ["cross_device"],
-            "relations": [
-                {
-                    "object_type": "remarketing_vk_group",
-                    "params": {
-                        "type": "positive",
-                        "source_id": 153502007
-                    }
-                }
-            ]
-        }
+        data = self.read_json(filename='post_segment_vk')
         func = self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
                                  headers=headers)
-        print(func.status_code)
 
     def post_segment_games(self, name):
         dict = self.session.cookies.get_dict()
@@ -62,12 +49,9 @@ class ApiClient:
         headers = {
             "X-CSRFToken": f'{csrf}'
         }
-        data = {"name": f"{name}", "pass_condition": 1, "relations": [
-            {"object_type": "remarketing_player", "params": {"type": "positive", "left": 365, "right": 0}}],
-                "logicType": "or"}
+        data = self.read_json(filename='post_segment_games')
         func = self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
                                  headers=headers)
-        print(func.status_code)
 
     def delete_segment(self, name):
         dict = self.session.cookies.get_dict()
@@ -80,9 +64,8 @@ class ApiClient:
             if str(json['items'][i]['name']) == str(name):
                 buf = json['items'][i]['id']
                 deletion = self.session.delete(
-                    url=f'https://target-sandbox.my.com/api/v2/remarketing/segments/{buf}.json',
+                    url=f'https://target-sandbox.my.com/api/v2/remarketing/segments/{buf}.files',
                     headers=headers)
-                print(deletion.status_code)
 
     def post_campaign(self, name):
         dict = self.session.cookies.get_dict()
@@ -91,21 +74,10 @@ class ApiClient:
             "X-CSRFToken": f'{csrf}'
         }
 
-        data = {
-
-            "autobidding_mode": "second_price_mean",
-            "name": f"{name}",
-            "objective": "videoviews",
-            "package_id": 863,
-            "price": "0.01",
-            "status": "active",
-            "banners": [
-                {"urls": {"primary": {"id": 697053}}, "content": {"video_landscape_30s": {"id": 8515}}, "name": ""}]
-        }
+        data = self.read_json(filename='post_campaing')
         func = self.session.post(url='https://target-sandbox.my.com/api/v2/campaigns.json', json=data,
                                  headers=headers)
-        print(func.status_code)
-        print(func.text)
+
 
     def delete_campaign(self, name):
         dict = self.session.cookies.get_dict()
@@ -113,11 +85,23 @@ class ApiClient:
         headers = {
             "X-CSRFToken": f'{csrf}'
         }
-        json = self.session.get(url='https://target-sandbox.my.com/api/v2/campaigns.json?fields=id%2Cname&sorting=-id&_status__in=active').json()
+        json = self.session.get(
+            url='https://target-sandbox.my.com/api/v2/campaigns.json?fields=id%2Cname&sorting=-id&_status__in=active').json()
         for i in range(len(json['items'])):
             if str(json['items'][i]['name']) == str(name):
                 buf = json['items'][i]['id']
-                deletion = self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{buf}.json',
-                    headers=headers)
-                print(deletion.status_code)
+                deletion = self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{buf}.files',
+                                               headers=headers)
+
+    def read_json(self, filename):
+        name = uuid.uuid4()
+        path = self.repo_root()
+        with open(
+                f'{path}/files/{filename}.json') as f:
+            info = json.load(f)
+            info['name'] = f'{name}'
+        return info
+
+    def repo_root(self):
+        return os.path.abspath(os.path.join(__file__, os.path.pardir))
 
