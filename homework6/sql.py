@@ -2,8 +2,6 @@ import pymysql
 import re
 import numpy
 import os
-os.chdir('D:\\Программирование\\ДЗ_сдача\\2022-2-VK-QA-PYTHON-ayypeegeepee\\homework6')
-
 
 nginx_re = re.compile(
     r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
@@ -21,7 +19,7 @@ class MysqlClient:
     def __init__(self, db_name, user, password):
         self.user = 'root'
         self.port = 3306
-        self.password = '2283221488'
+        self.password = '0000'
         self.host = '127.0.0.1'
         self.db_name = db_name
         self.connection = None
