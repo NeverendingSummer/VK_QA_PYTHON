@@ -7,7 +7,7 @@ nginx_re = re.compile(
     r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
 log = []
 exclude = 0
-with open("access.logs") as f:
+with open("./access.logs") as f:
     for row in f.readlines():
         if parsed := nginx_re.findall(row):
             log.append(parsed)
