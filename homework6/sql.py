@@ -2,7 +2,7 @@ import pymysql
 import re
 import numpy
 import os
-dir = r'./files/'
+dir = r'/home/runner/work/2022-2-VK-QA-PYTHON-ayypeegeepee/2022-2-VK-QA-PYTHON-ayypeegeepee/homework6/files/'
 os.chdir(dir)
 nginx_re = re.compile(
     r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
