@@ -10,7 +10,7 @@ nginx_re = re.compile(
     r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
 log = []
 exclude = 0
-with open(f"{path}\\files\\access.logs") as f:
+with open(f"{path}/files/access.logs") as f:
     for row in f.readlines():
         if parsed := nginx_re.findall(row):
             log.append(parsed)
@@ -22,7 +22,7 @@ class MysqlClient:
     def __init__(self, db_name, user, password):
         self.user = 'root'
         self.port = 3306
-        self.password = '2283221488'
+        self.password = '0000'
         self.host = '127.0.0.1'
         self.db_name = db_name
         self.connection = None
@@ -51,7 +51,7 @@ class MysqlClient:
 
     def log_len(self):
         exclude = 0
-        with open(f"{path}\\files\\access.logs") as f:
+        with open(f"{path}/files/access.logs") as f:
             for row in f.readlines():
                 if parsed := nginx_re.findall(row):
                     log.append(parsed)
@@ -89,7 +89,7 @@ class MysqlClient:
 
     def mock_info(self):
         mock = []
-        with open(f"{path}\\files\\mock.txt") as f:
+        with open(f"{path}/files/mock.txt") as f:
             for row in f.readlines():
                 buf = row.split()
                 mock.append(buf)
