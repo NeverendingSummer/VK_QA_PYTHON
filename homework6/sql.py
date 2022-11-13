@@ -2,14 +2,15 @@ import pymysql
 import re
 import numpy
 import os
-os.chdir('D:\\Программирование\\ДЗ_сдача\\2022-2-VK-QA-PYTHON-ayypeegeepee\\homework6')
 
-
+def repo_root():
+    return os.path.abspath(os.path.join(__file__, os.path.pardir))
+path = repo_root()
 nginx_re = re.compile(
     r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
 log = []
 exclude = 0
-with open("access.logs") as f:
+with open(f"{path}/files/access.logs") as f:
     for row in f.readlines():
         if parsed := nginx_re.findall(row):
             log.append(parsed)
@@ -21,11 +22,11 @@ class MysqlClient:
     def __init__(self, db_name, user, password):
         self.user = 'root'
         self.port = 3306
-        self.password = '2283221488'
+        self.password = 'pass'
         self.host = '127.0.0.1'
         self.db_name = db_name
         self.connection = None
-
+        self.path = repo_root()
     def connect(self, db_created=True):
         self.connection = pymysql.connect(host=self.host,
                                           port=self.port,
@@ -50,7 +51,7 @@ class MysqlClient:
 
     def log_len(self):
         exclude = 0
-        with open("access.logs") as f:
+        with open(f"{path}/files/access.logs") as f:
             for row in f.readlines():
                 if parsed := nginx_re.findall(row):
                     log.append(parsed)
@@ -88,7 +89,7 @@ class MysqlClient:
 
     def mock_info(self):
         mock = []
-        with open("mock.txt") as f:
+        with open(f"{path}/files/mock.txt") as f:
             for row in f.readlines():
                 buf = row.split()
                 mock.append(buf)
@@ -119,3 +120,6 @@ class MysqlClient:
 
     def show_db(self):
         print(self.connection.query(f'show databases'))
+
+
+

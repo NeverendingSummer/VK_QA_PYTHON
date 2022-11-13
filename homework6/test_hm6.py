@@ -1,6 +1,6 @@
 import pytest
 from sql import MysqlClient
-import re
+
 
 class MyTest:
 
