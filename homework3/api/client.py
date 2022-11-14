@@ -39,7 +39,7 @@ class ApiClient:
             "X-CSRFToken": f'{csrf}'
         }
 
-        data = self.read_json(filename='post_segment_vk')
+        data = self.read_json(filename='post_segment_vk',name=name)
         func = self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
                                  headers=headers)
 
@@ -49,7 +49,7 @@ class ApiClient:
         headers = {
             "X-CSRFToken": f'{csrf}'
         }
-        data = self.read_json(filename='post_segment_games')
+        data = self.read_json(filename='post_segment_games',name=name)
         func = self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
                                  headers=headers)
 
@@ -64,7 +64,7 @@ class ApiClient:
             if str(json['items'][i]['name']) == str(name):
                 buf = json['items'][i]['id']
                 deletion = self.session.delete(
-                    url=f'https://target-sandbox.my.com/api/v2/remarketing/segments/{buf}.files',
+                    url=f'https://target-sandbox.my.com/api/v2/remarketing/segments/{buf}.json',
                     headers=headers)
 
     def post_campaign(self, name):
@@ -74,10 +74,9 @@ class ApiClient:
             "X-CSRFToken": f'{csrf}'
         }
 
-        data = self.read_json(filename='post_campaing')
+        data = self.read_json(filename='post_campaing', name=name)
         func = self.session.post(url='https://target-sandbox.my.com/api/v2/campaigns.json', json=data,
                                  headers=headers)
-
 
     def delete_campaign(self, name):
         dict = self.session.cookies.get_dict()
@@ -90,16 +89,16 @@ class ApiClient:
         for i in range(len(json['items'])):
             if str(json['items'][i]['name']) == str(name):
                 buf = json['items'][i]['id']
-                deletion = self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{buf}.files',
+                deletion = self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{buf}.json',
                                                headers=headers)
 
-    def read_json(self, filename):
-        name = uuid.uuid4()
+    def read_json(self, filename, name):
         path = self.repo_root()
         with open(
                 f'{path}/files/{filename}.json') as f:
             info = json.load(f)
             info['name'] = f'{name}'
+
         return info
 
     def repo_root(self):
