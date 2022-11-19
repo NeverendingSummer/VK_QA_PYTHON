@@ -9,11 +9,28 @@ def repo_root():
     return os.path.abspath(os.path.join(__file__, os.path.pardir))
 
 
+class SegmentNotCreated(Exception):
+    pass
+
+
+class CampaignNotCreated(Exception):
+    pass
+
+
+class SegmentNotDeleted(Exception):
+    pass
+
+
+class CampaignNotDeleted(Exception):
+    pass
+
+
 class ApiClient:
     def __init__(self):
         self.session = requests.Session()
 
     def login(self):
+        global token
         headers = {
             'Referer': 'https://target-sandbox.my.com/'
         }
@@ -24,17 +41,18 @@ class ApiClient:
             'failure': 'https://account.my.com/login/',
             'continue': 'https://target-sandbox.my.com/auth/mycom?state=target_login%3D1%26ignore_opener%3D1#email'
         }
+
         self._request(method="POST", given_url='https://auth-ac.my.com/auth?lang=ru&nosavelogin=0',
                       headers=headers, data=data, location=None,
                       allow_redirects=True)
 
-    def get_crsf_header(self):
         self.session.get(url='https://target-sandbox.my.com/csrf')
         csrf = self.session.cookies.get_dict()['csrftoken']
-        headers = {
+        token = {
             "X-CSRFToken": f'{csrf}'
         }
-        return headers
+        return token
+
 
     def _request(self, given_url, method, location, headers, data, params=None, allow_redirects=False):
         url = urljoin(given_url, location)
@@ -43,35 +61,31 @@ class ApiClient:
 
     def post_segment_vk(self, name):
         data = self.read_json(filename='post_segment_vk', name=name)
-        self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
-                          headers=self.get_crsf_header())
+        action = self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
+                                   headers=token)
+        return action.json(), action.status_code
 
     def post_segment_games(self, name):
         data = self.read_json(filename='post_segment_games', name=name)
-        self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
-                          headers=self.get_crsf_header())
+        action = self.session.post(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json', json=data,
+                                   headers=token)
+        return action.json(), action.status_code
 
-    def delete_segment(self, name):
-        json = self.session.get(url='https://target-sandbox.my.com/api/v2/remarketing/segments.json').json()
-        for i in range(len(json['items'])):
-            if str(json['items'][i]['name']) == str(name):
-                self.session.delete(
-                    url=f'https://target-sandbox.my.com/api/v2/remarketing/segments/{json["items"][i]["id"]}.json',
-                    headers=self.get_crsf_header())
+    def delete_segment(self, id):
+        return self.session.delete(
+            url=f'https://target-sandbox.my.com/api/v2/remarketing/segments/{id["id"]}.json',
+            headers=token).status_code
 
     def post_campaign(self, name):
         data = self.read_json(filename='post_campaing', name=name)
         data['banners'][0]['content']['video_landscape_30s']['id'] = f'{self.send_video()}'
-        self.session.post(url='https://target-sandbox.my.com/api/v2/campaigns.json', json=data,
-                          headers=self.get_crsf_header())
+        action = self.session.post(url='https://target-sandbox.my.com/api/v2/campaigns.json', json=data,
+                                   headers=token)
+        return action.json(), action.status_code
 
-    def delete_campaign(self, name):
-        json = self.session.get(
-            url='https://target-sandbox.my.com/api/v2/campaigns.json?fields=id%2Cname&sorting=-id&_status__in=active').json()
-        for i in range(len(json['items'])):
-            if str(json['items'][i]['name']) == str(name):
-                self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{json["items"][i]["id"]}.json',
-                                    headers=self.get_crsf_header())
+    def delete_campaign(self, id):
+        return self.session.delete(url=f'https://target-sandbox.my.com/api/v2/campaigns/{id["id"]}.json',
+                                   headers=token).status_code
 
     def read_json(self, filename, name):
         with open(
@@ -87,5 +101,5 @@ class ApiClient:
             "file": video
         }
         request = self.session.post(url='https://target-sandbox.my.com/api/v2/content/video.json',
-                                    headers=self.get_crsf_header(), files=file)
+                                    headers=token, files=file)
         return request.json()['id']
