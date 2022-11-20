@@ -53,7 +53,6 @@ class ApiClient:
         }
         return token
 
-
     def _request(self, given_url, method, location, headers, data, params=None, allow_redirects=False):
         url = urljoin(given_url, location)
         self.session.request(method=method, url=url, headers=headers, data=data, params=params,
@@ -79,6 +78,7 @@ class ApiClient:
     def post_campaign(self, name):
         data = self.read_json(filename='post_campaing', name=name)
         data['banners'][0]['content']['video_landscape_30s']['id'] = f'{self.send_video()}'
+        data['banners'][0]['urls']['primary']['id'] = f'{self.get_ad_url(url="https://www.nestle.com/brands/chocolate-confectionery/kitkat")}'
         action = self.session.post(url='https://target-sandbox.my.com/api/v2/campaigns.json', json=data,
                                    headers=token)
         return action.json(), action.status_code
@@ -103,3 +103,11 @@ class ApiClient:
         request = self.session.post(url='https://target-sandbox.my.com/api/v2/content/video.json',
                                     headers=token, files=file)
         return request.json()['id']
+
+    def get_ad_url(self,url):
+        action = self.session.get(
+            url=f'https://target-sandbox.my.com/api/v1/urls/?url={url}',
+            headers=token)
+        return action.json()["id"]
+
+
