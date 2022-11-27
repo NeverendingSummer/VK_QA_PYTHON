@@ -1,0 +1,23 @@
+{
+  "autobidding_mode": "second_price_mean",
+  "name": "pass",
+  "objective": "videoviews",
+  "package_id": 863,
+  "price": "0.01",
+  "status": "active",
+  "banners": [
+    {
+      "urls": {
+        "primary": {
+          "id": "pass"
+        }
+      },
+      "content": {
+        "video_landscape_30s": {
+          "id": "pass"
+        }
+      },
+      "name": ""
+    }
+  ]
+}
