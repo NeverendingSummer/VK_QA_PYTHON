@@ -3,30 +3,17 @@ import re
 import numpy
 import os
 
-def repo_root():
-    return os.path.abspath(os.path.join(__file__, os.path.pardir))
-path = repo_root()
-nginx_re = re.compile(
-    r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
-log = []
-exclude = 0
-with open(f"{path}/files/access.logs") as f:
-    for row in f.readlines():
-        if parsed := nginx_re.findall(row):
-            log.append(parsed)
-        else:
-            exclude += 1
 
 class MysqlClient:
 
     def __init__(self, db_name, user, password):
         self.user = 'root'
         self.port = 3306
-        self.password = 'pass'
+        self.password = '2283221488'
         self.host = '127.0.0.1'
         self.db_name = db_name
         self.connection = None
-        self.path = repo_root()
+
     def connect(self, db_created=True):
         self.connection = pymysql.connect(host=self.host,
                                           port=self.port,
@@ -43,6 +30,37 @@ class MysqlClient:
         self.connection.query(f'DROP database IF EXISTS {self.db_name}')
         self.connection.query(f'CREATE database {self.db_name}')
 
+    def define_info(self):
+        global log
+        global methods
+        global all_methods
+        global buf
+        global counter
+        global ips
+        global ips_counter
+        nginx_re = re.compile(
+            r"(?P<ip>\d+\.\d+\.\d+\.\d+) - - (?P<datetime>\[.+\]) \"(?P<method>\w+) (?P<url>.+?) (?P<protocol>.+?)\" (?P<responce>\d+) (?P<size>\d+)")
+        log = []
+        methods = []
+        all_methods = []
+        buf = []
+        counter = []
+        ips = []
+        ips_counter = []
+        exclude = 0
+        with open(f"{os.path.abspath(os.path.join(__file__, os.path.pardir))}/files/access.logs") as f:
+            for row in f.readlines():
+                if parsed := nginx_re.findall(row):
+                    if parsed[0][2] not in methods:
+                        methods.append(parsed[0][2])
+                    all_methods.append(parsed[0][2])
+                    log.append(parsed)
+                else:
+                    exclude += 1
+            for i in range(len(log)): buf.append(log[i][0][3])
+            for i in range(len(log)):
+                if log[i][0][5] == "500": ips.append(log[i][0][0])
+
     def execute_query(self, query, fetch=False):
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -50,37 +68,13 @@ class MysqlClient:
             return cursor.fetchall()
 
     def log_len(self):
-        exclude = 0
-        with open(f"{path}/files/access.logs") as f:
-            for row in f.readlines():
-                if parsed := nginx_re.findall(row):
-                    log.append(parsed)
-                else:
-                    exclude += 1
-        return log, exclude
+        return len(log)
 
     def methods_counting(self):
-        count, post, get, head, put, other = 0, 0, 0, 0, 0, 0
-        methods = ["POST", "GET", "HEAD", "PUT", "OTHER"]
-        for i in range(len(log)):
-            count += 1
-            if log[i][0][2] == methods[0]:
-                post += 1
-            elif log[i][0][2] == methods[1]:
-                get += 1
-            elif log[i][0][2] == methods[2]:
-                head += 1
-            elif log[i][0][2] == methods[3]:
-                put += 1
-            else:
-                other += 1
-        counts=[post, get, head, put, other]
-        return counts, methods
+        count = [all_methods.count(i) for i in methods]
+        return methods, count
 
     def url_counting(self, count):
-        buf = []
-        counter = []
-        for i in range(len(log)): buf.append(log[i][0][3])
         uniq = numpy.unique(buf)
         for i in range(len(uniq)):
             if buf.count(uniq[i]) > 1000: counter.append(buf.count(uniq[i]))
@@ -89,17 +83,13 @@ class MysqlClient:
 
     def mock_info(self):
         mock = []
-        with open(f"{path}/files/mock.txt") as f:
+        with open(f"{os.path.abspath(os.path.join(__file__, os.path.pardir))}/files/mock.txt") as f:
             for row in f.readlines():
                 buf = row.split()
                 mock.append(buf)
         return mock
 
     def ip_counting(self):
-        ips = []
-        ips_counter = []
-        for i in range(len(log)):
-            if log[i][0][5] == "500": ips.append(log[i][0][0])
         uniq_ips = numpy.unique(ips)
         for i in range(len(uniq_ips)):
             ips_counter.append(ips.count(uniq_ips[i]))
@@ -107,7 +97,8 @@ class MysqlClient:
         return uniq_ips, ips_counter, ips
 
     def create_tables(self):
-        self.connection.query(f'create table test1 (`id` smallint(10) not null auto_increment, `count` int(20) not null, primary key (`id`))')
+        self.connection.query(
+            f'create table test1 (`id` smallint(10) not null auto_increment, `count` int(20) not null, primary key (`id`))')
         self.connection.query(
             f'create table test2 (`id` smallint(10) not null auto_increment, `method` varchar(50) not null, `count` int(20) not null, primary key (`id`))')
         self.connection.query(
@@ -119,7 +110,11 @@ class MysqlClient:
             f'create table test5 (`id` smallint(10) not null auto_increment, `ip` varchar(20) not null,`count` int(15) not null, primary key (`id`))')
 
     def show_db(self):
-        print(self.connection.query(f'show databases'))
+        print(self.connection.query(f'show tables'))
 
-
-
+    def read(self, what, table):
+        with self.connection.cursor() as cursor:
+            everything = f"SELECT {what} FROM {table}"
+            cursor.execute(everything)
+            rows = cursor.fetchall()
+            return rows
