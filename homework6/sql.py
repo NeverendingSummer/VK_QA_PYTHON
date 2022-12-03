@@ -111,7 +111,3 @@ class MysqlClient:
             rows = cursor.fetchall()
             return rows
 
-r = MysqlClient(user='root', password='pass', db_name='TEST_SQL')
-r.connect()
-r.define_info()
-r.methods_counting()
