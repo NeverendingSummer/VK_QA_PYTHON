@@ -3,7 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-from ui.pages.main_page import MainPage
+from ui.pages.login_page import LoginPage
+from ui.pages.registry_page import RegistryPage
 
 
 def pytest_addoption(parser):
@@ -35,14 +36,19 @@ def driver(config):
 
 
 @pytest.fixture
-def main_page(driver):
-    return MainPage(driver=driver)
+def login_page(driver):
+    return LoginPage(driver=driver)
+
+
+@pytest.fixture
+def registry_page(driver):
+    return RegistryPage(driver=driver)
 
 
 @pytest.fixture(scope='session')
 def cookies(driver, config):
     driver.get(config['url'])
-    base_page = MainPage(driver)
+    base_page = LoginPage(driver)
     base_page.login("testuser", "test123")
     cookies = driver.get_cookies()
     return cookies

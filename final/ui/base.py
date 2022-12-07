@@ -1,7 +1,7 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
-from ui.pages.main_page import MainPage
-
+from ui.pages.login_page import LoginPage
+from ui.pages.registry_page import RegistryPage
 
 class BaseCase:
     authorize = True
@@ -15,4 +15,5 @@ class BaseCase:
             for cookie in cookies:
                 self.driver.add_cookie(cookie)
             self.driver.refresh()
-        self.main_page: MainPage = (request.getfixturevalue('main_page'))
+        self.login_page: LoginPage = (request.getfixturevalue('login_page'))
+        self.registry_page: RegistryPage = (request.getfixturevalue('registry_page'))
