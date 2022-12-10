@@ -15,7 +15,13 @@ def config(request):
 
 
 def pytest_configure(config):
-    print('here config')
+    base_dir = './logs'
+    if not hasattr(config, 'workerunput'):
+        if os.path.exists(base_dir):
+            shutil.rmtree(base_dir)
+        os.makedirs(base_dir)
+
+    config.base_temp_dir = base_dir
 
 
 def pytest_unconfigure(config):

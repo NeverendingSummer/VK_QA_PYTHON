@@ -20,6 +20,5 @@ class RegistryPage(LoginPage):
         return self.driver.find_element(*locators.MainPageLocators.logged_as_user_locator).text.split(' ')[2]
 
     def get_response(self):
-        print('here in func')
-        print(self.driver.find_element(*locators.RegistryPageLocators.flash_locator).text)
+        self.wait_visible(locators.RegistryPageLocators.flash_locator, timeout=5)
         return self.driver.find_element(*locators.RegistryPageLocators.flash_locator).text

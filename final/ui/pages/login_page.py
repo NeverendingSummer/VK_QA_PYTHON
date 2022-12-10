@@ -36,3 +36,6 @@ class LoginPage(object):
         self.insert_login_info(username, password)
         self.wait_clickable(self.locators.submit_locator).click()
         self.wait_located(self.locators.entered_page_locator)
+
+    def wait_visible(self, locator, timeout=5):
+        return self.wait(timeout).until(ec.visibility_of_element_located(locator))
