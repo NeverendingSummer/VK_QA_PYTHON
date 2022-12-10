@@ -1,23 +1,27 @@
 import pytest
-from faker import Faker
-from random_username.generate import generate_username
-
+from ui.faker_info import create_fake_info
 from ui.base import BaseCase
-
-fake = Faker()
+from selenium.common.exceptions import *
+import time
 
 
 class TestTwo(BaseCase):
     authorize = False
-    name = fake.name().split(' ')
 
-    @pytest.mark.parametrize("name,surname,username,email,password",
-                             [(f'{name[0]}', f'{name[1]}', f'{generate_username(1)[0]}',
-                               f'{fake.email()}',
-                               f'{fake.password()}')
-                                 , (f'{name[0]}', f'{name[1]}', f'{generate_username(1)[0]}',
-                                    f'{fake.email()}',
-                                    f'{fake.password()}')])
-    def test_registry(self, name, surname, username, email, password):
-        self.registry_page.insert_values(name, surname, username, email, password)
-        assert self.registry_page.check_registration() == username
+    @pytest.mark.skip("SKIP")
+    def test_normal_registry(self, create_fake_info_fixture):
+        self.registry_page.insert_values(*create_fake_info_fixture)
+        assert self.registry_page.check_registration() == create_fake_info_fixture[2]
+
+    @pytest.mark.skip("SKIP")
+    def test_overextended_name(self, create_fake_info_fixture):
+        self.registry_page.insert_values(' ', *create_fake_info_fixture[1:])
+        time.sleep(5)
+        with pytest.raises(NoSuchElementException):
+            self.registry_page.check_registration()
+
+    def test_(self, create_fake_info_fixture):
+        self.registry_page.insert_values(' ', *create_fake_info_fixture[1:])
+        print(self.registry_page.get_response())
+        print("HERE IN TEST")
+        # time.sleep(5)

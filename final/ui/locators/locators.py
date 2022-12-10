@@ -19,8 +19,9 @@ class RegistryPageLocators:
     repeat_password_locator = (By.ID, 'confirm')
     checkbox_locator = (By.ID, 'term')
     submit_locator = (By.ID, 'submit')
+    flash_locator = (By.ID, 'flash')
 
 
 class MainPageLocators:
     logout_locator = (By.ID, 'logout')
-    logged_as_user_locator = (By.XPATH,'//*[@id="login-name"]/ul/li[1]')
+    logged_as_user_locator = (By.XPATH, '//*[@id="login-name"]/ul/li[1]')
