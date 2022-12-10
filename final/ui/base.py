@@ -2,6 +2,8 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from ui.pages.login_page import LoginPage
 from ui.pages.registry_page import RegistryPage
+import os
+import allure
 
 class BaseCase:
     authorize = True
@@ -17,3 +19,9 @@ class BaseCase:
             self.driver.refresh()
         self.login_page: LoginPage = (request.getfixturevalue('login_page'))
         self.registry_page: RegistryPage = (request.getfixturevalue('registry_page'))
+
+    def assert_expected(self, expect):
+        if not self.registry_page.get_response() == f'{expect}':
+            path = os.path.join('./logs', 'failed.png')
+            self.driver.get_screenshot_as_file(filename=path)
+            allure.attach.file(path, 'failed.png', allure.attachment_type.PNG)

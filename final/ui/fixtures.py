@@ -5,7 +5,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-import os, shutil
+import os
 from ui.pages.login_page import LoginPage
 from ui.pages.registry_page import RegistryPage
 
@@ -31,6 +31,11 @@ def registry_page(driver):
     return RegistryPage(driver=driver)
 
 
+@pytest.fixture(scope='session')
+def repo_root():
+    return os.path.abspath(os.path.join(__file__, os.path.pardir))
+
+
 @pytest.fixture(scope="session")
 def driver(config):
     options = Options()
@@ -51,6 +56,6 @@ def driver(config):
 def cookies(driver, config):
     driver.get(config['url'])
     base_page = LoginPage(driver)
-    base_page.login("testuser", "test123")
+    base_page.login("temeka", "testpassword")
     cookies = driver.get_cookies()
     return cookies
