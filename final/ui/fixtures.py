@@ -5,7 +5,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-import os
+import os, shutil
 from ui.pages.login_page import LoginPage
 from ui.pages.registry_page import RegistryPage
 
@@ -59,3 +59,4 @@ def cookies(driver, config):
     base_page.login("temeka", "testpassword")
     cookies = driver.get_cookies()
     return cookies
+
