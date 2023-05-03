@@ -133,3 +133,4 @@ dmypy.json
 allure/
 allure-report/
 *.patch
+bash_result
